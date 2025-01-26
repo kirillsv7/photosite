@@ -15,13 +15,15 @@ final class MediaFile implements Entity, AggregateWithEvents
 {
     use UseAggregateEvents;
 
-    private function __construct(
+    protected function __construct(
         public readonly UuidInterface $id,
-        public readonly StringValueObject $originalName,
-        private ?array $info,
+        public readonly StringValueObject $originalFileName,
+        public readonly StringValueObject $fileName,
         public readonly StorageInfo $storageInfo,
         private array $sizes,
+        public readonly StringValueObject $extension,
         public readonly StringValueObject $mimetype,
+        private ?array $info,
         public readonly MediableTypeEnum $mediableType,
         public readonly UuidInterface $mediableId,
         public readonly ?CarbonImmutable $createdAt = null,
@@ -31,11 +33,13 @@ final class MediaFile implements Entity, AggregateWithEvents
 
     public static function make(
         UuidInterface $id,
-        StringValueObject $originalName,
-        ?array $info,
+        StringValueObject $originalFileName,
+        StringValueObject $fileName,
         StorageInfo $storageInfo,
         array $sizes,
+        StringValueObject $extension,
         StringValueObject $mimetype,
+        ?array $info,
         MediableTypeEnum $mediableType,
         UuidInterface $mediableId,
         ?CarbonImmutable $createdAt = null,
@@ -43,11 +47,13 @@ final class MediaFile implements Entity, AggregateWithEvents
     ): self {
         return new self(
             id: $id,
-            originalName: $originalName,
-            info: $info,
+            originalFileName: $originalFileName,
+            fileName: $fileName,
             storageInfo: $storageInfo,
             sizes: $sizes,
+            extension: $extension,
             mimetype: $mimetype,
+            info: $info,
             mediableType: $mediableType,
             mediableId: $mediableId,
             createdAt: $createdAt,
@@ -57,11 +63,13 @@ final class MediaFile implements Entity, AggregateWithEvents
 
     public static function create(
         UuidInterface $id,
-        StringValueObject $originalName,
-        ?array $info,
+        StringValueObject $originalFileName,
+        StringValueObject $fileName,
         StorageInfo $storageInfo,
         array $sizes,
+        StringValueObject $extension,
         StringValueObject $mimetype,
+        ?array $info,
         MediableTypeEnum $mediableType,
         UuidInterface $mediableId,
         ?CarbonImmutable $createdAt = null,
@@ -69,11 +77,13 @@ final class MediaFile implements Entity, AggregateWithEvents
     ): self {
         $mediaFile = self::make(
             id: $id,
-            originalName: $originalName,
-            info: $info,
+            originalFileName: $originalFileName,
+            fileName: $fileName,
             storageInfo: $storageInfo,
             sizes: $sizes,
+            extension: $extension,
             mimetype: $mimetype,
+            info: $info,
             mediableType: $mediableType,
             mediableId: $mediableId,
             createdAt: $createdAt,
@@ -100,32 +110,42 @@ final class MediaFile implements Entity, AggregateWithEvents
         return $this->sizes;
     }
 
-    public function filePath(): string
+    /** @return StringValueObject[] */
+    public function filePaths(): array
     {
-        return implode(DIRECTORY_SEPARATOR, [
-            $this->storageInfo->route,
-            $this->storageInfo->fileName,
-        ]);
+        $filePaths = [];
+
+        foreach ($this->sizes as $size => $filename) {
+            $filePaths[$size] = StringValueObject::fromArray(DIRECTORY_SEPARATOR, [
+                $this->storageInfo->route->toPrimitive(),
+                $filename,
+            ]);
+        }
+
+        return $filePaths;
     }
 
-    public function addSize(string $size): void
+    public function addSize(int $size, string $filename): void
     {
-        $this->sizes[] = $size;
+        $this->sizes[$size] = $filename;
     }
 
     public function toArray(): array
     {
         return [
             'id' => $this->id->toString(),
-            'original_name' => $this->originalName->toPrimitive(),
-            'info' => $this->info,
+            'original_filename' => $this->originalFileName->toPrimitive(),
+            'filename' => $this->fileName->toPrimitive(),
             'storage_info' => $this->storageInfo->toArray(),
             'sizes' => $this->sizes,
+            'files' => array_map(fn(StringValueObject $filePath) => $filePath->toPrimitive(),$this->filePaths()),
+            'extension' => $this->extension->toPrimitive(),
             'mimetype' => $this->mimetype->toPrimitive(),
-            'mediableType' => $this->mediableType->name,
-            'mediableId' => $this->mediableId->toString(),
-            'createdAt' => $this->createdAt?->toDateTimeString(),
-            'updatedAt' => $this->updatedAt?->toDateTimeString(),
+            'info' => $this->info,
+            'mediable_type' => $this->mediableType->name,
+            'mediable_id' => $this->mediableId->toString(),
+            'created_at' => $this->createdAt?->toDateTimeString(),
+            'updated_at' => $this->updatedAt?->toDateTimeString(),
         ];
     }
 }

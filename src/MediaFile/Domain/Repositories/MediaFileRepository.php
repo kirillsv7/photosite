@@ -21,9 +21,10 @@ interface MediaFileRepository extends Repository
     public function create(MediaFile $mediaFile): void;
 
     /**
+     * @throws MediaFileNotFoundException
      * @throws Throwable
      */
-    public function update(UuidInterface $id, MediaFile $mediaFile): void;
+    public function update(MediaFile $mediaFile): void;
 
     /**
      * @throws MediaFileNotFoundException

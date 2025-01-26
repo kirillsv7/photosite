@@ -19,8 +19,7 @@ final readonly class MediaFileCreateHandler extends Handler
         protected MediaFileNameGenerator $mediaFileNameGenerator,
         protected MediaFileRouteGenerator $mediaFileRouteGenerator,
         protected Storage $storage,
-    )
-    {
+    ) {
     }
 
     public function handle(MediaFileCreateCommand $command)
@@ -37,23 +36,26 @@ final readonly class MediaFileCreateHandler extends Handler
             $file,
         );
 
+        $fileName = $this->mediaFileNameGenerator->__invoke($file);
+
         $savedFile = $this->storage->saveFile(
             file: $file,
             fileRoute: $fileRoute,
-            fileName: $this->mediaFileNameGenerator->__invoke($file)
+            fileName: $fileName,
         );
 
         return MediaFile::create(
             id: Uuid::uuid6(),
-            originalName: StringValueObject::fromString($file->getClientOriginalName()),
-            info: [],
+            originalFileName: StringValueObject::fromString($file->getClientOriginalName()),
+            fileName: $savedFile->name,
             storageInfo: StorageInfo::make(
-                disk: StringValueObject::fromString($savedFile->disk),
-                route: StringValueObject::fromString($savedFile->route),
-                fileName: StringValueObject::fromString($savedFile->name),
+                disk: $savedFile->disk,
+                route: $savedFile->route,
             ),
             sizes: [],
+            extension: StringValueObject::fromString($file->extension()),
             mimetype: StringValueObject::fromString($file->getMimeType()),
+            info: [],
             mediableType: $command->mediableTypeEnum,
             mediableId: $mediableId,
             createdAt: CarbonImmutable::now(),

@@ -67,10 +67,10 @@ final class Slug implements Entity, AggregateWithEvents
         return [
             'id' => $this->id->toString(),
             'value' => $this->value->toPrimitive(),
-            'sluggableType' => $this->sluggableType->name,
-            'sluggableId' => $this->sluggableId->toString(),
-            'createdAt' => $this->createdAt?->toDateTimeString(),
-            'updatedAt' => $this->updatedAt?->toDateTimeString(),
+            'sluggable_type' => $this->sluggableType->name,
+            'sluggable_id' => $this->sluggableId->toString(),
+            'created_at' => $this->createdAt?->toDateTimeString(),
+            'updated_at' => $this->updatedAt?->toDateTimeString(),
         ];
     }
 }

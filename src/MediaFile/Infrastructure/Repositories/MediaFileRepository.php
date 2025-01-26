@@ -23,15 +23,15 @@ final class MediaFileRepository implements MediaFileRepositoryContract
 
     public function get(UuidInterface $id): ?MediaFile
     {
-        $mediaFileModel = MediaFileModel::query()
+        $model = MediaFileModel::query()
             ->where('id', $id->toString())
             ->first();
 
-        if (!$mediaFileModel) {
+        if (!$model) {
             throw new MediaFileNotFoundException();
         }
 
-        return $this->map($mediaFileModel);
+        return $this->map($model);
     }
 
     public function create(MediaFile $mediaFile): void
@@ -40,11 +40,13 @@ final class MediaFileRepository implements MediaFileRepositoryContract
             $model = new MediaFileModel();
 
             $model->setAttribute('id', $mediaFile->id->toString());
-            $model->setAttribute('original_name', $mediaFile->originalName->toPrimitive());
-            $model->setAttribute('info', $mediaFile->info());
+            $model->setAttribute('original_filename', $mediaFile->originalFileName->toPrimitive());
+            $model->setAttribute('filename', $mediaFile->fileName->toPrimitive());
             $model->setAttribute('storage_info', $mediaFile->storageInfo->toArray());
             $model->setAttribute('sizes', $mediaFile->sizes());
+            $model->setAttribute('extension', $mediaFile->extension->toPrimitive());
             $model->setAttribute('mimetype', $mediaFile->mimetype->toPrimitive());
+            $model->setAttribute('info', $mediaFile->info());
             $model->setAttribute('mediable_type', $mediaFile->mediableType->name);
             $model->setAttribute('mediable_id', $mediaFile->mediableId->toString());
             $model->setAttribute('created_at', Carbon::now());
@@ -53,19 +55,27 @@ final class MediaFileRepository implements MediaFileRepositoryContract
         });
     }
 
-    public function update(UuidInterface $id, MediaFile $mediaFile): void
+    public function update(MediaFile $mediaFile): void
     {
-        /** @var MediaFileModel $model */
-        $model = MediaFileModel::query()->find($id);
+        /** @var ?MediaFileModel $model */
+        $model = MediaFileModel::query()
+            ->where('id', $mediaFile->id->toString())
+            ->first();
+
+        if (!$model) {
+            throw new MediaFileNotFoundException();
+        }
 
         $this->connection->transaction(function () use ($model, $mediaFile) {
-            $model->setAttribute('original_name', $mediaFile->originalName->toPrimitive());
-            $model->setAttribute('info', $mediaFile->info());
-            $model->setAttribute('storage_info', $mediaFile->storageInfo->toArray());
+            //$model->setAttribute('original_filename', $mediaFile->originalFileName->toPrimitive());
+            //$model->setAttribute('filename', $mediaFile->fileName->toPrimitive());
+            //$model->setAttribute('storage_info', $mediaFile->storageInfo->toArray());
             $model->setAttribute('sizes', $mediaFile->sizes());
-            $model->setAttribute('mimetype', $mediaFile->mimetype->toPrimitive());
-            $model->setAttribute('mediable_type', $mediaFile->mediableType->name);
-            $model->setAttribute('mediable_id', $mediaFile->mediableId->toString());
+            //$model->setAttribute('extension', $mediaFile->extension->toPrimitive());
+            //$model->setAttribute('mimetype', $mediaFile->mimetype->toPrimitive());
+            $model->setAttribute('info', $mediaFile->info());
+            //$model->setAttribute('mediable_type', $mediaFile->mediableType->name);
+            //$model->setAttribute('mediable_id', $mediaFile->mediableId->toString());
             $model->setAttribute('updated_at', Carbon::now());
 
             $model->save();
@@ -75,7 +85,9 @@ final class MediaFileRepository implements MediaFileRepositoryContract
     public function getById(UuidInterface $id): ?MediaFile
     {
         /** @var ?MediaFileModel $model */
-        $model = MediaFileModel::query()->find($id);
+        $model = MediaFileModel::query()
+            ->where('id', $id->toString())
+            ->first();
 
         if (!$model) {
             throw new MediaFileNotFoundException();
@@ -102,15 +114,16 @@ final class MediaFileRepository implements MediaFileRepositoryContract
     {
         return MediaFile::make(
             id: Uuid::fromString($model->getAttribute('id')),
-            originalName: StringValueObject::fromString($model->getAttribute('original_name')),
-            info: $model->getAttribute('info'),
+            originalFileName: StringValueObject::fromString($model->getAttribute('original_filename')),
+            fileName: StringValueObject::fromString($model->getAttribute('filename')),
             storageInfo: StorageInfo::make(
                 disk: StringValueObject::fromString($model->getAttribute('storage_info')['disk']),
                 route: StringValueObject::fromString($model->getAttribute('storage_info')['route']),
-                fileName: StringValueObject::fromString($model->getAttribute('storage_info')['fileName'])
             ),
             sizes: $model->getAttribute('sizes'),
+            extension: StringValueObject::fromString($model->getAttribute('extension')),
             mimetype: StringValueObject::fromString($model->getAttribute('mimetype')),
+            info: $model->getAttribute('info'),
             mediableType: MediableTypeEnum::fromName($model->getAttribute('mediable_type')),
             mediableId: Uuid::fromString($model->getAttribute('mediable_id')),
             createdAt: $model->getAttribute('created_at'),

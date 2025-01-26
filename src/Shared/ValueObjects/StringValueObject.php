@@ -18,9 +18,15 @@ readonly class StringValueObject
         return new static($value);
     }
 
+    /** @param  array<string>  $values */
+    public static function fromArray(string $separator, array $values): static
+    {
+        return new static(implode($separator, $values));
+    }
+
     public function append(string $value): static
     {
-        return new static($this->value . $value);
+        return new static($this->value.$value);
     }
 
     public function equals(StringValueObject $otherString): bool

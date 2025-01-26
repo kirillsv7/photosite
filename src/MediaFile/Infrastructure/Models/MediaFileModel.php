@@ -17,11 +17,12 @@ final class MediaFileModel extends BaseModel
     protected $table = 'media_files';
 
     protected $fillable = [
-        'original_name',
-        'info',
+        'original_filename',
         'storage_info',
         'sizes',
+        'extension',
         'mimetype',
+        'info',
         'mediable_type',
         'mediable_id',
     ];
@@ -29,9 +30,9 @@ final class MediaFileModel extends BaseModel
     protected function casts(): array
     {
         return [
-            'info' => 'array',
             'storage_info' => 'array',
             'sizes' => 'array',
+            'info' => 'array',
             'created_at' => 'immutable_datetime',
             'updated_at' => 'immutable_datetime',
         ];

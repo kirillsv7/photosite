@@ -5,6 +5,7 @@ namespace Source\MediaFile\Infrastructure\Services;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Interfaces\ImageManagerInterface;
+use Source\MediaFile\Domain\Contracts\MediaFileNameGenerator;
 use Source\MediaFile\Domain\Entities\MediaFile;
 use Source\MediaFile\Domain\Repositories\MediaFileRepository;
 use Throwable;
@@ -13,6 +14,7 @@ final readonly class ImageThumbsGenerator
 {
     public function __construct(
         protected ImageManagerInterface $imageManager,
+        protected MediaFileNameGenerator $mediaFileNameGenerator,
         protected MediaFileRepository $repository,
     ) {
     }
@@ -23,19 +25,23 @@ final readonly class ImageThumbsGenerator
     public function process(MediaFile $mediaFile): void
     {
         $mediaFileImage = Storage::disk($mediaFile->storageInfo->disk->toPrimitive())
-            ->get($mediaFile->filePath());
+            ->get($mediaFile->storageInfo->route->toPrimitive() . DIRECTORY_SEPARATOR . $mediaFile->fileName->toPrimitive());
 
         $image = $this->imageManager->read($mediaFileImage);
 
         foreach (config('mediafiles.thumb_sizes') as $size) {
             if (
-                $image->width() <= $size &&
-                $image->height() <= $size
+                $image->width() <= $size
+                && $image->height() <= $size
             ) {
                 continue;
             }
 
-            $newSizeFileName = Str::replace('original', $size, $mediaFile->storageInfo->fileName);
+            $newSizeFileName = Str::replace(
+                $this->mediaFileNameGenerator::fileName()->toPrimitive(),
+                $size,
+                $mediaFile->fileName->toPrimitive()
+            );
 
             $imageContent = $this->imageManager
                 ->read($mediaFileImage)
@@ -51,9 +57,9 @@ final readonly class ImageThumbsGenerator
                     $imageContent
                 );
 
-            $mediaFile->addSize($newSizeFileName);
+            $mediaFile->addSize($size, $newSizeFileName);
         }
 
-        $this->repository->update($mediaFile->id, $mediaFile);
+        $this->repository->update($mediaFile);
     }
 }

@@ -13,11 +13,13 @@ return new class () extends Migration {
     {
         Schema::create('media_files', function (Blueprint $table) {
             $table->uuid('id');
-            $table->string('original_name');
-            $table->json('info')->nullable();
+            $table->string('original_filename');
+            $table->string('filename');
             $table->json('storage_info');
             $table->json('sizes');
+            $table->string('extension');
             $table->string('mimetype');
+            $table->json('info')->nullable();
             $table->enum('mediable_type', MediableTypeEnum::names());
             $table->uuid('mediable_id');
             $table->timestamp('created_at')->useCurrent();

@@ -12,5 +12,5 @@ interface MediaFileRouteGenerator
         StringValueObject $mediaFolder,
         UuidInterface $mediableId,
         UploadedFile $uploadedFile
-    ): string;
+    ): StringValueObject;
 }

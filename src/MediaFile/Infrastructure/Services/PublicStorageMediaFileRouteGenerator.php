@@ -14,12 +14,12 @@ final class PublicStorageMediaFileRouteGenerator implements MediaFileRouteGenera
         StringValueObject $mediaFolder,
         UuidInterface $mediableId,
         UploadedFile $uploadedFile
-    ): string {
+    ): StringValueObject {
         $rootFolder = 'media_files';
 
         $mimeTypeFolder = $this->guessFolderNameFromMimeType($uploadedFile);
 
-        return implode(DIRECTORY_SEPARATOR, [
+        return StringValueObject::fromArray(DIRECTORY_SEPARATOR, [
             $rootFolder,
             $mediaFolder->toPrimitive(),
             $mediableId->toString(),

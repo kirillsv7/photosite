@@ -81,8 +81,8 @@ final class Category implements Entity, Mediable, Sluggable
            'description' => $this->description?->toPrimitive(),
            'image' => $this->image->toArray(),
            'slug' => $this->slug->toArray(),
-           'createdAt' => $this->createdAt?->toDateTimeString(),
-           'updatedAt' => $this->updatedAt?->toDateTimeString(),
+           'created_at' => $this->createdAt?->toDateTimeString(),
+           'updated_at' => $this->updatedAt?->toDateTimeString(),
        ];
     }
 

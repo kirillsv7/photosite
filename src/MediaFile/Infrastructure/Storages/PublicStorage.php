@@ -6,6 +6,7 @@ use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Http\UploadedFile;
 use Source\MediaFile\Domain\Contracts\Storage;
 use Source\MediaFile\Domain\ValueObjects\SavedFile;
+use Source\Shared\ValueObjects\StringValueObject;
 
 final class PublicStorage implements Storage
 {
@@ -16,17 +17,22 @@ final class PublicStorage implements Storage
     ) {
     }
 
+    public static function disk(): StringValueObject
+    {
+        return StringValueObject::fromString(self::DISK);
+    }
+
     public function saveFile(
         UploadedFile $file,
-        string $fileRoute,
-        string $fileName,
+        StringValueObject $fileRoute,
+        StringValueObject $fileName,
     ): SavedFile {
         $result = $this->fileSystem
             ->disk(self::DISK)
             ->put(
                 implode(DIRECTORY_SEPARATOR, [
-                    $fileRoute,
-                    $fileName
+                    $fileRoute->toPrimitive(),
+                    $fileName->toPrimitive()
                 ]),
                 $file->getContent()
             );
@@ -36,21 +42,23 @@ final class PublicStorage implements Storage
         }
 
         return new SavedFile(
-            disk: self::DISK,
+            disk: self::disk(),
             route: $fileRoute,
             name: $fileName,
         );
     }
 
     public function getFileUrl(
-        string $fileRoute,
-        string $fileName
-    ): string {
-        return $this->fileSystem->url(
-            implode(DIRECTORY_SEPARATOR, [
-                $fileRoute,
-                $fileName
-            ])
+        StringValueObject $fileRoute,
+        StringValueObject $fileName
+    ): StringValueObject {
+        return StringValueObject::fromString(
+            $this->fileSystem->url(
+                implode(DIRECTORY_SEPARATOR, [
+                    $fileRoute->toPrimitive(),
+                    $fileName->toPrimitive()
+                ])
+            )
         );
     }
 }
