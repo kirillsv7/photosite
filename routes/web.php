@@ -7,7 +7,7 @@ use Source\Photo\Interface\Controllers\PhotoController;
 use Source\Resource\Interface\Controllers\ResourceController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return \Inertia\Inertia::render('Home');
 });
 
 Route::get('/token', function (Request $request) {
