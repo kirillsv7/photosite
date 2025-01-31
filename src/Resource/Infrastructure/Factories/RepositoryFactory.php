@@ -23,6 +23,7 @@ final readonly class RepositoryFactory
     {
         return match ($sluggableTypeEnum) {
             SluggableTypeEnum::Category => $this->categoryRepository,
+            /** @phpstan-ignore match.alwaysTrue */
             SluggableTypeEnum::Photo => $this->photoRepository,
             default => throw new LogicException('Repository not implemented for the given type')
         };

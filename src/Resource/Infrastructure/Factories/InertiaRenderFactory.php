@@ -16,6 +16,7 @@ class InertiaRenderFactory
     {
         return match ($slug->sluggableType) {
             SluggableTypeEnum::Category => new RenderDTO('Category/Show', 'category'),
+            /** @phpstan-ignore match.alwaysTrue */
             SluggableTypeEnum::Photo => new RenderDTO('Photo/Show', 'photo'),
             default => throw new LogicException('Render not implemented for the given type')
         };

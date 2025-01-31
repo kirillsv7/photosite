@@ -22,7 +22,7 @@ final readonly class PhotoGetHandler extends Handler
      * @throws MediaFileNotFoundException
      * @throws SlugNotFoundException
      */
-    public function handle(PhotoGetQuery $query): ?Photo
+    public function handle(PhotoGetQuery $query): Photo
     {
         return $this->photoRepository->get($query->id);
     }

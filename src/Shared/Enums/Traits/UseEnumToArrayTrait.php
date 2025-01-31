@@ -13,7 +13,8 @@ trait UseEnumToArrayTrait
     {
         $values = array_column(self::cases(), 'value');
 
-        if (! count($values)) {
+        /** @phpstan-ignore booleanNot.alwaysTrue */
+        if (!count($values)) {
             $values = array_column(self::cases(), 'name');
         }
 
@@ -24,10 +25,12 @@ trait UseEnumToArrayTrait
     {
         $values = array_column(self::cases(), 'value');
 
-        if (! count($values)) {
+        /** @phpstan-ignore booleanNot.alwaysTrue */
+        if (!count($values)) {
             return self::names();
         }
 
+        /** @phpstan-ignore deadCode.unreachable */
         return array_combine(self::values(), self::names());
     }
 }
