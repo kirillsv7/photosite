@@ -13,7 +13,7 @@ interface MediaFileRepository extends Repository
     /**
      * @throws MediaFileNotFoundException
      */
-    public function get(UuidInterface $id): ?MediaFile;
+    public function get(UuidInterface $id): MediaFile;
 
     /**
      * @throws Throwable
@@ -29,10 +29,10 @@ interface MediaFileRepository extends Repository
     /**
      * @throws MediaFileNotFoundException
      */
-    public function getById(UuidInterface $id): ?MediaFile;
+    public function getById(UuidInterface $id): MediaFile;
 
     /**
      * @throws MediaFileNotFoundException
      */
-    public function getByMediableId(UuidInterface $mediableId): ?MediaFile;
+    public function getByMediableId(UuidInterface $mediableId): MediaFile;
 }

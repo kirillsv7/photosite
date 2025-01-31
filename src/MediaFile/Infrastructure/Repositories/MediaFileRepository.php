@@ -21,7 +21,7 @@ final class MediaFileRepository implements MediaFileRepositoryContract
     ) {
     }
 
-    public function get(UuidInterface $id): ?MediaFile
+    public function get(UuidInterface $id): MediaFile
     {
         $model = MediaFileModel::query()
             ->where('id', $id->toString())
@@ -57,7 +57,6 @@ final class MediaFileRepository implements MediaFileRepositoryContract
 
     public function update(MediaFile $mediaFile): void
     {
-        /** @var ?MediaFileModel $model */
         $model = MediaFileModel::query()
             ->where('id', $mediaFile->id->toString())
             ->first();
@@ -82,9 +81,8 @@ final class MediaFileRepository implements MediaFileRepositoryContract
         });
     }
 
-    public function getById(UuidInterface $id): ?MediaFile
+    public function getById(UuidInterface $id): MediaFile
     {
-        /** @var ?MediaFileModel $model */
         $model = MediaFileModel::query()
             ->where('id', $id->toString())
             ->first();
@@ -96,9 +94,8 @@ final class MediaFileRepository implements MediaFileRepositoryContract
         return self::map($model);
     }
 
-    public function getByMediableId(UuidInterface $mediableId): ?MediaFile
+    public function getByMediableId(UuidInterface $mediableId): MediaFile
     {
-        /** @var ?MediaFileModel $model */
         $model = MediaFileModel::query()
             ->where('mediable_id', $mediableId->toString())
             ->first();
