@@ -15,7 +15,7 @@ interface SlugRepository extends Repository
     /**
      * @throws SlugNotFoundException
      */
-    public function get(UuidInterface $id): ?Slug;
+    public function get(UuidInterface $id): Slug;
 
     /**
      * @throws Throwable
@@ -30,15 +30,15 @@ interface SlugRepository extends Repository
     /**
      * @throws SlugNotFoundException
      */
-    public function getBySlug(StringValueObject $slug): ?Slug;
+    public function getBySlug(StringValueObject $slug): Slug;
 
     /**
      * @throws SlugNotFoundException
      */
-    public function getBySluggable(Sluggable $sluggableType, UuidInterface $sluggableId): ?Slug;
+    public function getBySluggable(Sluggable $sluggableType, UuidInterface $sluggableId): Slug;
 
     /**
      * @throws SlugNotFoundException
      */
-    public function getBySluggableId(UuidInterface $id): ?Slug;
+    public function getBySluggableId(UuidInterface $id): Slug;
 }

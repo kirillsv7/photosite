@@ -22,7 +22,7 @@ final class SlugRepository implements SlugRepositoryContract
     ) {
     }
 
-    public function get(UuidInterface $id): ?Slug
+    public function get(UuidInterface $id): Slug
     {
         $slugModel = SlugModel::query()
             ->where('id', $id->toString())
@@ -35,7 +35,7 @@ final class SlugRepository implements SlugRepositoryContract
         return $this->map($slugModel);
     }
 
-    public function getBySlug(StringValueObject $slug): ?Slug
+    public function getBySlug(StringValueObject $slug): Slug
     {
         $model = SlugModel::query()
             ->where('slug', $slug->toPrimitive())
@@ -77,7 +77,7 @@ final class SlugRepository implements SlugRepositoryContract
     public function getBySluggable(
         Sluggable $sluggableType,
         UuidInterface $sluggableId
-    ): ?Slug {
+    ): Slug {
         $model = SlugModel::query()
             ->where('sluggable_type', get_class($sluggableType))
             ->where('sluggable_id', $sluggableId)
@@ -90,7 +90,7 @@ final class SlugRepository implements SlugRepositoryContract
         return $this->map($model);
     }
 
-    public function getBySluggableId(UuidInterface $id): ?Slug
+    public function getBySluggableId(UuidInterface $id): Slug
     {
         $model = SlugModel::query()
             ->where('sluggable_id', $id->toString())
