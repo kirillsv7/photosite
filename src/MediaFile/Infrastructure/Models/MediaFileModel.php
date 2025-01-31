@@ -2,6 +2,7 @@
 
 namespace Source\MediaFile\Infrastructure\Models;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,6 +11,20 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Source\MediaFile\Infrastructure\Factories\MediaFileFactory;
 use Source\Shared\Models\BaseModel;
 
+/**
+ * @property-read string $id
+ * @property-read string $original_filename
+ * @property-read string $filename
+ * @property-read array<string, string> $storage_info
+ * @property-read array<int, string> $sizes
+ * @property-read string $extension
+ * @property-read string $mimetype
+ * @property-read ?array<string, mixed> $info
+ * @property-read string $mediable_type
+ * @property-read string $mediable_id
+ * @property-read CarbonImmutable $created_at
+ * @property-read ?CarbonImmutable $updated_at
+ */
 final class MediaFileModel extends BaseModel
 {
     /** @use HasFactory<MediaFileFactory> */

@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 use Ramsey\Uuid\Uuid;
 use Source\MediaFile\Application\Commands\MediaFileCreateCommand;
+use Source\MediaFile\Domain\Entities\MediaFile;
 use Source\MediaFile\Domain\Enums\MediableTypeEnum;
 use Source\Photo\Application\Commands\PhotoCreateCommand;
 use Source\Photo\Application\Commands\PhotoStoreCommand;
@@ -16,6 +17,7 @@ use Source\Shared\Commands\Contracts\CommandBus;
 use Source\Shared\Queries\Contracts\QueryBus;
 use Source\Shared\ValueObjects\StringValueObject;
 use Source\Slug\Application\Commands\SlugCreateCommand;
+use Source\Slug\Domain\Entities\Slug;
 use Source\Slug\Domain\Enums\SluggableTypeEnum;
 
 final readonly class PhotoController
@@ -30,6 +32,7 @@ final readonly class PhotoController
     {
         $photoGetQuery = new PhotoGetQuery(Uuid::fromString($id));
 
+        /** @var Photo $photo */
         $photo = $this->queryBus->query($photoGetQuery);
 
         return Response::json(
@@ -53,6 +56,7 @@ final readonly class PhotoController
             mediableFolder: Photo::getMediableFolder(),
         );
 
+        /** @var MediaFile $image */
         $image = $this->commandBus->run($mediaFileCreateCommand);
 
         $originalFileNameWithoutExtension = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -66,6 +70,7 @@ final readonly class PhotoController
             slugBase: Photo::getSlugBase(),
         );
 
+        /** @var Slug $slug */
         $slug = $this->commandBus->run($slugCreateCommand);
 
         $photoCreateCommand = new PhotoCreateCommand(
@@ -75,6 +80,7 @@ final readonly class PhotoController
             slug: $slug,
         );
 
+        /** @var Photo $photo */
         $photo = $this->commandBus->run($photoCreateCommand);
 
         $photoStoreCommand = new PhotoStoreCommand($photo);

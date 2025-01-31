@@ -27,7 +27,7 @@ final class MediaFileRepository implements MediaFileRepositoryContract
             ->where('id', $id->toString())
             ->first();
 
-        if (! $model) {
+        if (!$model) {
             throw new MediaFileNotFoundException();
         }
 
@@ -61,7 +61,7 @@ final class MediaFileRepository implements MediaFileRepositoryContract
             ->where('id', $mediaFile->id->toString())
             ->first();
 
-        if (! $model) {
+        if (!$model) {
             throw new MediaFileNotFoundException();
         }
 
@@ -87,7 +87,7 @@ final class MediaFileRepository implements MediaFileRepositoryContract
             ->where('id', $id->toString())
             ->first();
 
-        if (! $model) {
+        if (!$model) {
             throw new MediaFileNotFoundException();
         }
 
@@ -100,7 +100,7 @@ final class MediaFileRepository implements MediaFileRepositoryContract
             ->where('mediable_id', $mediableId->toString())
             ->first();
 
-        if (! $model) {
+        if (!$model) {
             throw new MediaFileNotFoundException();
         }
 
@@ -110,21 +110,21 @@ final class MediaFileRepository implements MediaFileRepositoryContract
     private function map(MediaFileModel $model): MediaFile
     {
         return MediaFile::make(
-            id: Uuid::fromString($model->getAttribute('id')),
-            originalFileName: StringValueObject::fromString($model->getAttribute('original_filename')),
-            fileName: StringValueObject::fromString($model->getAttribute('filename')),
+            id: Uuid::fromString($model->id),
+            originalFileName: StringValueObject::fromString($model->original_filename),
+            fileName: StringValueObject::fromString($model->filename),
             storageInfo: StorageInfo::make(
-                disk: StringValueObject::fromString($model->getAttribute('storage_info')['disk']),
-                route: StringValueObject::fromString($model->getAttribute('storage_info')['route']),
+                disk: StringValueObject::fromString($model->storage_info['disk']),
+                route: StringValueObject::fromString($model->storage_info['route']),
             ),
-            sizes: $model->getAttribute('sizes'),
-            extension: StringValueObject::fromString($model->getAttribute('extension')),
-            mimetype: StringValueObject::fromString($model->getAttribute('mimetype')),
-            info: $model->getAttribute('info'),
-            mediableType: MediableTypeEnum::fromName($model->getAttribute('mediable_type')),
-            mediableId: Uuid::fromString($model->getAttribute('mediable_id')),
-            createdAt: $model->getAttribute('created_at'),
-            updatedAt: $model->getAttribute('updated_at'),
+            sizes: $model->sizes,
+            extension: StringValueObject::fromString($model->extension),
+            mimetype: StringValueObject::fromString($model->mimetype),
+            info: $model->info,
+            mediableType: MediableTypeEnum::fromName($model->mediable_type),
+            mediableId: Uuid::fromString($model->mediable_id),
+            createdAt: $model->created_at,
+            updatedAt: $model->updated_at,
         );
     }
 }

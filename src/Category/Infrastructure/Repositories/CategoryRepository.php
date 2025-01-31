@@ -31,11 +31,11 @@ final readonly class CategoryRepository implements CategoryRepositoryContract
             ->where('id', $id->toString())
             ->first();
 
-        if (! $categoryModel) {
+        if (!$categoryModel) {
             throw new CategoryNotFoundException();
         }
 
-        $uuid = Uuid::fromString($categoryModel->getAttribute('id'));
+        $uuid = Uuid::fromString($categoryModel->id);
 
         $mediaFile = $this->mediaFileRepository
             ->getByMediableId($uuid);
@@ -71,15 +71,15 @@ final readonly class CategoryRepository implements CategoryRepositoryContract
         Slug $slug,
     ): Category {
         return Category::make(
-            id: Uuid::fromString($model->getAttribute('id')),
-            title: StringValueObject::fromString($model->getAttribute('title')),
-            description: $model->getAttribute('description')
-                ? StringValueObject::fromString($model->getAttribute('description'))
+            id: Uuid::fromString($model->id),
+            title: StringValueObject::fromString($model->title),
+            description: $model->description
+                ? StringValueObject::fromString($model->description)
                 : null,
             image: $mediaFile,
             slug: $slug,
-            createdAt: $model->getAttribute('created_at'),
-            updatedAt: $model->getAttribute('updated_at'),
+            createdAt: $model->created_at,
+            updatedAt: $model->updated_at,
         );
     }
 }

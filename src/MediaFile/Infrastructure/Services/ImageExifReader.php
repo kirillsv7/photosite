@@ -3,9 +3,11 @@
 namespace Source\MediaFile\Infrastructure\Services;
 
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
 use Source\MediaFile\Domain\Entities\MediaFile;
 use Source\MediaFile\Domain\Repositories\MediaFileRepository;
+use Source\Shared\ValueObjects\StringValueObject;
 use Throwable;
 
 final readonly class ImageExifReader
@@ -22,11 +24,26 @@ final readonly class ImageExifReader
     public function process(MediaFile $mediaFile): void
     {
         $mediaFileImage = Storage::disk($mediaFile->storageInfo->disk->toPrimitive())
-            ->get($mediaFile->storageInfo->route->toPrimitive().DIRECTORY_SEPARATOR.$mediaFile->fileName->toPrimitive());
+            ->get(
+                StringValueObject::fromArray(
+                    DIRECTORY_SEPARATOR,
+                    [
+                        $mediaFile->storageInfo->route->toPrimitive(),
+                        $mediaFile->fileName->toPrimitive(),
+                    ]
+                )
+                    ->toPrimitive()
+            );
 
         $image = $this->imageManager->read($mediaFileImage);
 
-        $mediaFile->setInfo($image->exif()->toArray());
+        /** @var CollectionInterface<string, mixed> $exif */
+        $exif = $image->exif();
+
+        /** @var array<string, mixed> $info */
+        $info = $exif->toArray();
+
+        $mediaFile->setInfo($info);
 
         $this->repository->update($mediaFile);
     }

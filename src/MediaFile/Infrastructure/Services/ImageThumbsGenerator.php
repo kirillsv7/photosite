@@ -25,11 +25,16 @@ final readonly class ImageThumbsGenerator
     public function process(MediaFile $mediaFile): void
     {
         $mediaFileImage = Storage::disk($mediaFile->storageInfo->disk->toPrimitive())
-            ->get($mediaFile->storageInfo->route->toPrimitive().DIRECTORY_SEPARATOR.$mediaFile->fileName->toPrimitive());
+            ->get(
+                $mediaFile->storageInfo->route->toPrimitive().DIRECTORY_SEPARATOR.$mediaFile->fileName->toPrimitive()
+            );
 
         $image = $this->imageManager->read($mediaFileImage);
 
-        foreach (config('mediafiles.thumb_sizes') as $size) {
+        /** @var int[] $thumbSizes */
+        $thumbSizes = config('mediafiles.thumb_sizes');
+
+        foreach ($thumbSizes as $size) {
             if (
                 $image->width() <= $size
                 && $image->height() <= $size
@@ -39,7 +44,7 @@ final readonly class ImageThumbsGenerator
 
             $newSizeFileName = Str::replace(
                 $this->mediaFileNameGenerator::fileName()->toPrimitive(),
-                $size,
+                (string)$size,
                 $mediaFile->fileName->toPrimitive()
             );
 

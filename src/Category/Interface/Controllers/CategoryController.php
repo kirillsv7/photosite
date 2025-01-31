@@ -10,9 +10,11 @@ use Source\Category\Application\Commands\CategoryStoreCommand;
 use Source\Category\Domain\Entities\Category;
 use Source\Category\Interface\Requests\CategoryStoreRequest;
 use Source\MediaFile\Application\Commands\MediaFileCreateCommand;
+use Source\MediaFile\Domain\Entities\MediaFile;
 use Source\MediaFile\Domain\Enums\MediableTypeEnum;
 use Source\Shared\Commands\Contracts\CommandBus;
 use Source\Slug\Application\Commands\SlugCreateCommand;
+use Source\Slug\Domain\Entities\Slug;
 use Source\Slug\Domain\Enums\SluggableTypeEnum;
 
 final readonly class CategoryController
@@ -45,6 +47,7 @@ final readonly class CategoryController
                 mediableFolder: Category::getMediableFolder(),
             );
 
+            /** @var MediaFile $image */
             $image = $this->commandBus->run($mediaFileCreateCommand);
         }
 
@@ -55,6 +58,7 @@ final readonly class CategoryController
             slugBase: Category::getSlugBase(),
         );
 
+        /** @var Slug $slug */
         $slug = $this->commandBus->run($slugCreateCommand);
 
         $categoryCreateCommand = new CategoryCreateCommand(
@@ -65,6 +69,7 @@ final readonly class CategoryController
             slug: $slug,
         );
 
+        /** @var Category $category */
         $category = $this->commandBus->run($categoryCreateCommand);
 
         $categoryStoreCommand = new CategoryStoreCommand($category);

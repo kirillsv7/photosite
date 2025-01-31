@@ -31,11 +31,11 @@ final readonly class PhotoRepository implements PhotoRepositoryContract
             ->where('id', $id->toString())
             ->first();
 
-        if (! $photoModel) {
+        if (!$photoModel) {
             throw new PhotoNotFoundException();
         }
 
-        $uuid = Uuid::fromString($photoModel->getAttribute('id'));
+        $uuid = Uuid::fromString($photoModel->id);
 
         $mediaFile = $this->mediaFileRepository
             ->getByMediableId($uuid);
@@ -68,12 +68,12 @@ final readonly class PhotoRepository implements PhotoRepositoryContract
         Slug $slug,
     ): Photo {
         return Photo::make(
-            id: Uuid::fromString($model->getAttribute('id')),
-            title: StringValueObject::fromString($model->getAttribute('title')),
+            id: Uuid::fromString($model->id),
+            title: StringValueObject::fromString($model->title),
             image: $mediaFile,
             slug: $slug,
-            createdAt: $model->getAttribute('created_at'),
-            updatedAt: $model->getAttribute('updated_at'),
+            createdAt: $model->created_at,
+            updatedAt: $model->updated_at,
         );
     }
 }

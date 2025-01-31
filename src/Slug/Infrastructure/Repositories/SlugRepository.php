@@ -110,12 +110,12 @@ final class SlugRepository implements SlugRepositoryContract
     private function map(SlugModel $model): Slug
     {
         return Slug::make(
-            id: Uuid::fromString($model->getAttribute('id')),
-            value: SlugString::fromString($model->getAttribute('slug')),
-            sluggableType: SluggableTypeEnum::fromName($model->getAttribute('sluggable_type')),
-            sluggableId: Uuid::fromString($model->getAttribute('sluggable_id')),
-            createdAt: $model->getAttribute('created_at'),
-            updatedAt: $model->getAttribute('updated_at'),
+            id: Uuid::fromString($model->id),
+            value: SlugString::fromString($model->slug),
+            sluggableType: SluggableTypeEnum::fromName($model->sluggable_type),
+            sluggableId: Uuid::fromString($model->sluggable_id),
+            createdAt: $model->created_at,
+            updatedAt: $model->updated_at,
         );
     }
 }

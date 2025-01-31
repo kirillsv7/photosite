@@ -2,14 +2,21 @@
 
 namespace Source\Slug\Infrastructure\Models;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Source\Category\Infrastructure\Models\CategoryModel;
-use Source\Photo\Infrastructure\Models\PhotoModel;
 use Source\Shared\Models\BaseModel;
 
+/**
+ * @property-read  string $id
+ * @property-read  string $slug
+ * @property-read  string $sluggable_type
+ * @property-read  string $sluggable_id
+ * @property-read  CarbonImmutable $created_at
+ * @property-read  ?CarbonImmutable $updated_at
+ */
 final class SlugModel extends BaseModel
 {
     use HasUuids;
