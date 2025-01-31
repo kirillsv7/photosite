@@ -34,6 +34,10 @@ final class PublicStorageMediaFileRouteGenerator implements MediaFileRouteGenera
 
         $folder = 'others';
 
+        if (!$mimeType) {
+            return StringValueObject::fromString($folder);
+        }
+
         if (str_contains($mimeType, 'image')) {
             $folder = 'images';
         }

@@ -54,7 +54,7 @@ final readonly class MediaFileCreateHandler extends Handler
             ),
             sizes: [],
             extension: StringValueObject::fromString($file->extension()),
-            mimetype: StringValueObject::fromString($file->getMimeType()),
+            mimetype: StringValueObject::fromString($file->getMimeType() ?? ''),
             info: [],
             mediableType: $command->mediableTypeEnum,
             mediableId: $mediableId,

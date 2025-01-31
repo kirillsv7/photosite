@@ -27,7 +27,7 @@ final readonly class CategoryStoreHandler extends Handler
 
         $this->eventDispatcher->multiDispatch($category->releaseEvents());
 
-        $this->eventDispatcher->multiDispatch($category->image?->releaseEvents());
+        $this->eventDispatcher->multiDispatch($category->image ? $category->image->releaseEvents() : []);
 
         $this->eventDispatcher->multiDispatch($category->slug->releaseEvents());
     }
