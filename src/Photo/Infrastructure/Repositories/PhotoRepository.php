@@ -25,7 +25,7 @@ final readonly class PhotoRepository implements PhotoRepositoryContract
     ) {
     }
 
-    public function get(UuidInterface $id): ?Photo
+    public function get(UuidInterface $id): Photo
     {
         $photoModel = PhotoModel::query()
             ->where('id', $id->toString())

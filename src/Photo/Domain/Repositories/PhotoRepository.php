@@ -17,7 +17,7 @@ interface PhotoRepository extends ResourceRepository
      * @throws MediaFileNotFoundException
      * @throws SlugNotFoundException
      */
-    public function get(UuidInterface $id): ?Photo;
+    public function get(UuidInterface $id): Photo;
 
     /**
      * @throws Throwable
