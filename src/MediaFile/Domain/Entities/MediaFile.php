@@ -4,6 +4,7 @@ namespace Source\MediaFile\Domain\Entities;
 
 use Carbon\CarbonImmutable;
 use Ramsey\Uuid\UuidInterface;
+use Source\MediaFile\Domain\Contracts\Storage;
 use Source\MediaFile\Domain\Enums\MediableTypeEnum;
 use Source\MediaFile\Domain\Events\MediaFileCreated;
 use Source\Shared\Entities\Contracts\AggregateWithEvents;
@@ -15,6 +16,22 @@ final class MediaFile implements Entity, AggregateWithEvents
 {
     use UseAggregateEvents;
 
+    protected Storage $storage;
+
+    /**
+     * @param  UuidInterface  $id
+     * @param  StringValueObject  $originalFileName
+     * @param  StringValueObject  $fileName
+     * @param  StorageInfo  $storageInfo
+     * @param  array<int, string>  $sizes
+     * @param  StringValueObject  $extension
+     * @param  StringValueObject  $mimetype
+     * @param  array|null  $info
+     * @param  MediableTypeEnum  $mediableType
+     * @param  UuidInterface  $mediableId
+     * @param  CarbonImmutable|null  $createdAt
+     * @param  CarbonImmutable|null  $updatedAt
+     */
     protected function __construct(
         public readonly UuidInterface $id,
         public readonly StringValueObject $originalFileName,
@@ -27,8 +44,9 @@ final class MediaFile implements Entity, AggregateWithEvents
         public readonly MediableTypeEnum $mediableType,
         public readonly UuidInterface $mediableId,
         public readonly ?CarbonImmutable $createdAt = null,
-        public readonly ?CarbonImmutable $updatedAt = null
+        public readonly ?CarbonImmutable $updatedAt = null,
     ) {
+        $this->storage = app(Storage::class);
     }
 
     public static function make(
@@ -110,19 +128,19 @@ final class MediaFile implements Entity, AggregateWithEvents
         return $this->sizes;
     }
 
-    /** @return StringValueObject[] */
-    public function filePaths(): array
+    public function links(): array
     {
-        $filePaths = [];
+        $links = [];
 
         foreach ($this->sizes as $size => $filename) {
-            $filePaths[$size] = StringValueObject::fromArray(DIRECTORY_SEPARATOR, [
-                $this->storageInfo->route->toPrimitive(),
-                $filename,
-            ]);
+            $links[$size] = $this->storage
+                ->getFileUrl(
+                    $this->storageInfo->route,
+                    StringValueObject::fromString($filename)
+                )->toPrimitive();
         }
 
-        return $filePaths;
+        return $links;
     }
 
     public function addSize(int $size, string $filename): void
@@ -138,7 +156,7 @@ final class MediaFile implements Entity, AggregateWithEvents
             'filename' => $this->fileName->toPrimitive(),
             'storage_info' => $this->storageInfo->toArray(),
             'sizes' => $this->sizes,
-            'files' => array_map(fn(StringValueObject $filePath) => $filePath->toPrimitive(),$this->filePaths()),
+            'links' => $this->links(),
             'extension' => $this->extension->toPrimitive(),
             'mimetype' => $this->mimetype->toPrimitive(),
             'info' => $this->info,

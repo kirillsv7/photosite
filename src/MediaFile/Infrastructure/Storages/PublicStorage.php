@@ -4,6 +4,7 @@ namespace Source\MediaFile\Infrastructure\Storages;
 
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Http\UploadedFile;
+use RuntimeException;
 use Source\MediaFile\Domain\Contracts\Storage;
 use Source\MediaFile\Domain\ValueObjects\SavedFile;
 use Source\Shared\ValueObjects\StringValueObject;
@@ -38,7 +39,7 @@ final class PublicStorage implements Storage
             );
 
         if (!$result) {
-            throw new \RuntimeException('File not saved');
+            throw new RuntimeException('File not saved');
         }
 
         return new SavedFile(
@@ -54,10 +55,14 @@ final class PublicStorage implements Storage
     ): StringValueObject {
         return StringValueObject::fromString(
             $this->fileSystem->url(
-                implode(DIRECTORY_SEPARATOR, [
-                    $fileRoute->toPrimitive(),
-                    $fileName->toPrimitive()
-                ])
+                StringValueObject::fromArray(
+                    DIRECTORY_SEPARATOR,
+                    [
+                        $fileRoute->toPrimitive(),
+                        $fileName->toPrimitive(),
+                    ]
+                )
+                    ->toPrimitive()
             )
         );
     }
