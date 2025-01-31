@@ -25,7 +25,7 @@ final readonly class CategoryRepository implements CategoryRepositoryContract
     ) {
     }
 
-    public function get(UuidInterface $id): ?Category
+    public function get(UuidInterface $id): Category
     {
         $categoryModel = CategoryModel::query()
             ->where('id', $id->toString())

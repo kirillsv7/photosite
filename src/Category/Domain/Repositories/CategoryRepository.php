@@ -17,7 +17,7 @@ interface CategoryRepository extends ResourceRepository
      * @throws MediaFileNotFoundException
      * @throws SlugNotFoundException
      */
-    public function get(UuidInterface $id): ?Category;
+    public function get(UuidInterface $id): Category;
 
     /**
      * @throws Throwable
