@@ -16,7 +16,7 @@ final readonly class SlugString extends StringValueObject
             implode(
                 DIRECTORY_SEPARATOR,
                 array_map(
-                    fn(string $fragment) => Str::slug($fragment),
+                    fn (string $fragment) => Str::slug($fragment),
                     $fragments
                 )
             )

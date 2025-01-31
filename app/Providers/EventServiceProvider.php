@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Source\Category\Domain\Events\CategoryCreatedEvent;
 use Source\MediaFile\Domain\Events\MediaFileCreatedEvent;
 use Source\MediaFile\Infrastructure\EventListeners\ImageStoreExif;
 use Source\MediaFile\Infrastructure\EventListeners\MediaFileGenerateThumbs;
