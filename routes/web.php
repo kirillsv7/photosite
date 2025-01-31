@@ -23,7 +23,7 @@ Route::post('photo', [PhotoController::class, 'store']);
 Route::get('category/{id}', [CategoryController::class, 'get']);
 Route::post('category', [CategoryController::class, 'store']);
 
-Route::get("{slug}", [ResourceController::class, 'getBySlug'])
+Route::get('{slug}', [ResourceController::class, 'getBySlug'])
     ->where([
-        'slug' => '[a-z0-9\-\_\/]+'
+        'slug' => '[a-z0-9\-\_\/]+',
     ]);

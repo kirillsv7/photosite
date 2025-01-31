@@ -2,7 +2,6 @@
 
 namespace Source\MediaFile\Domain\Entities;
 
-
 use Source\Shared\ValueObjects\StringValueObject;
 
 final readonly class StorageInfo

@@ -33,7 +33,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $eventWithListeners = [
-            //CategoryCreated::class => CategoryCreatedEventListener::class,
+            // CategoryCreated::class => CategoryCreatedEventListener::class,
             PhotoCreated::class => PhotoCreatedEventListener::class,
             MediaFileCreated::class => [
                 MediaFileGenerateThumbs::class,
@@ -42,7 +42,7 @@ class EventServiceProvider extends ServiceProvider
         ];
 
         foreach ($eventWithListeners as $event => $listener) {
-            if(is_array($listener)) {
+            if (is_array($listener)) {
                 foreach ($listener as $listenerClass) {
                     Event::listen($event, $listenerClass);
                 }

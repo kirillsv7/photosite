@@ -9,10 +9,10 @@ use Source\Shared\Enums\Traits\UseEnumFromNameTrait;
 use Source\Shared\Enums\Traits\UseEnumToArrayTrait;
 use Source\Shared\Enums\Traits\UseNonBackedEnumSerializableTrait;
 
-enum SluggableTypeEnum implements EnumToArray, EnumFromName, JsonSerializable
+enum SluggableTypeEnum implements EnumFromName, EnumToArray, JsonSerializable
 {
-    use UseEnumToArrayTrait;
     use UseEnumFromNameTrait;
+    use UseEnumToArrayTrait;
     use UseNonBackedEnumSerializableTrait;
 
     case Category;

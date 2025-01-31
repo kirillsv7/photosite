@@ -8,7 +8,7 @@ use Source\MediaFile\Infrastructure\Services\ImageThumbsGenerator;
 use Source\Shared\ValueObjects\StringValueObject;
 use Throwable;
 
-final readonly class MediaFileGenerateThumbs //implements ShouldQueue
+final readonly class MediaFileGenerateThumbs // implements ShouldQueue
 {
     public function __construct(
         protected ImageThumbsGenerator $imageThumbsGenerator
@@ -21,7 +21,7 @@ final readonly class MediaFileGenerateThumbs //implements ShouldQueue
     public function handle(
         MediaFileCreated $mediaFileCreated
     ): void {
-        if (!$mediaFileCreated
+        if (! $mediaFileCreated
             ->mediaFile
             ->mimetype
             ->equals(StringValueObject::fromString('image/jpeg'))

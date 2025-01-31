@@ -6,12 +6,12 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\ConnectionInterface;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Source\Category\Domain\Entities\Category;
+use Source\Category\Domain\Exceptions\CategoryNotFoundException;
 use Source\Category\Domain\Repositories\CategoryRepository as CategoryRepositoryContract;
 use Source\Category\Infrastructure\Models\CategoryModel;
 use Source\MediaFile\Domain\Entities\MediaFile;
 use Source\MediaFile\Domain\Repositories\MediaFileRepository;
-use Source\Category\Domain\Entities\Category;
-use Source\Category\Domain\Exceptions\CategoryNotFoundException;
 use Source\Shared\ValueObjects\StringValueObject;
 use Source\Slug\Domain\Entities\Slug;
 use Source\Slug\Domain\Repositories\SlugRepository;
@@ -31,7 +31,7 @@ final readonly class CategoryRepository implements CategoryRepositoryContract
             ->where('id', $id->toString())
             ->first();
 
-        if (!$categoryModel) {
+        if (! $categoryModel) {
             throw new CategoryNotFoundException();
         }
 

@@ -8,5 +8,6 @@ use Source\Shared\Exceptions\DefaultException;
 class MediaFileNotFoundException extends DefaultException
 {
     protected $code = JsonResponse::HTTP_NOT_FOUND;
+
     protected $message = 'MediaFile doesn\'t exists';
 }

@@ -11,8 +11,8 @@ use Source\Shared\Models\BaseModel;
 
 final class MediaFileModel extends BaseModel
 {
-    use HasUuids;
     use HasFactory;
+    use HasUuids;
 
     protected $table = 'media_files';
 

@@ -17,7 +17,7 @@ final class GeneralMediaFileNameGenerator implements MediaFileNameGenerator
     {
         return StringValueObject::fromArray('.', [
             self::fileName()->toPrimitive(),
-            $uploadedFile->extension()
+            $uploadedFile->extension(),
         ]);
     }
 }

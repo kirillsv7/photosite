@@ -62,7 +62,7 @@ readonly class IntegerValueObject
 
     public function divideCeil(IntegerValueObject $divider): static
     {
-        return new static((int)ceil($this->value / $divider->value));
+        return new static((int) ceil($this->value / $divider->value));
     }
 
     public function max(IntegerValueObject $compared): IntegerValueObject
@@ -77,7 +77,7 @@ readonly class IntegerValueObject
 
     public function __toString()
     {
-        return (string)$this->value;
+        return (string) $this->value;
     }
 
     public function toPrimitive(): int

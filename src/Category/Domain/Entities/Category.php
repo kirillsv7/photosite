@@ -72,18 +72,17 @@ final class Category implements Entity, Mediable, Sluggable
         return $category;
     }
 
-
     public function toArray(): array
     {
-       return [
-           'id' => $this->id->toString(),
-           'title' => $this->title->toPrimitive(),
-           'description' => $this->description?->toPrimitive(),
-           'image' => $this->image->toArray(),
-           'slug' => $this->slug->toArray(),
-           'created_at' => $this->createdAt?->toDateTimeString(),
-           'updated_at' => $this->updatedAt?->toDateTimeString(),
-       ];
+        return [
+            'id' => $this->id->toString(),
+            'title' => $this->title->toPrimitive(),
+            'description' => $this->description?->toPrimitive(),
+            'image' => $this->image->toArray(),
+            'slug' => $this->slug->toArray(),
+            'created_at' => $this->createdAt?->toDateTimeString(),
+            'updated_at' => $this->updatedAt?->toDateTimeString(),
+        ];
     }
 
     public static function getMediableFolder(): StringValueObject

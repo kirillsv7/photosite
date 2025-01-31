@@ -28,7 +28,7 @@ final class SlugRepository implements SlugRepositoryContract
             ->where('id', $id->toString())
             ->first();
 
-        if (!$slugModel) {
+        if (! $slugModel) {
             throw new SlugNotFoundException();
         }
 
@@ -41,7 +41,7 @@ final class SlugRepository implements SlugRepositoryContract
             ->where('slug', $slug->toPrimitive())
             ->first();
 
-        if (!$model) {
+        if (! $model) {
             throw new SlugNotFoundException();
         }
 
@@ -83,7 +83,7 @@ final class SlugRepository implements SlugRepositoryContract
             ->where('sluggable_id', $sluggableId)
             ->first();
 
-        if (!$model) {
+        if (! $model) {
             throw new SlugNotFoundException();
         }
 
@@ -96,7 +96,7 @@ final class SlugRepository implements SlugRepositoryContract
             ->where('sluggable_id', $id->toString())
             ->first();
 
-        if (!$model) {
+        if (! $model) {
             throw new SlugNotFoundException();
         }
 

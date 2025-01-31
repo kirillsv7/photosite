@@ -13,7 +13,7 @@ final class PhotoStoreRequest extends FormRequest implements RequestWithDTO
     {
         return [
             'title' => ['string', 'max:255'],
-            'image' => ['required', 'file']
+            'image' => ['required', 'file'],
         ];
     }
 

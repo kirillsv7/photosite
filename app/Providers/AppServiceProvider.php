@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         Storage::class => PublicStorage::class,
 
-        ImageManagerInterface::class => InterventionImageManager::class
+        ImageManagerInterface::class => InterventionImageManager::class,
     ];
 
     /**

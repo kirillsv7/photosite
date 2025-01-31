@@ -40,11 +40,11 @@ class ResourceController
             /** @var Entity & Sluggable $resource */
             $resource = $repository->get($slugDomain->sluggableId);
         } catch (
-        SlugNotFoundException
-        |CategoryNotFoundException
-        |PhotoNotFoundException
-        |MediaFileNotFoundException
-        $e
+            SlugNotFoundException
+            |CategoryNotFoundException
+            |PhotoNotFoundException
+            |MediaFileNotFoundException
+            $e
         ) {
             Log::error($e->getMessage(), ['slug' => $slug]);
 

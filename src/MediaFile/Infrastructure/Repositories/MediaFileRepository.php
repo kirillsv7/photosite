@@ -27,7 +27,7 @@ final class MediaFileRepository implements MediaFileRepositoryContract
             ->where('id', $id->toString())
             ->first();
 
-        if (!$model) {
+        if (! $model) {
             throw new MediaFileNotFoundException();
         }
 
@@ -61,20 +61,20 @@ final class MediaFileRepository implements MediaFileRepositoryContract
             ->where('id', $mediaFile->id->toString())
             ->first();
 
-        if (!$model) {
+        if (! $model) {
             throw new MediaFileNotFoundException();
         }
 
         $this->connection->transaction(function () use ($model, $mediaFile) {
-            //$model->setAttribute('original_filename', $mediaFile->originalFileName->toPrimitive());
-            //$model->setAttribute('filename', $mediaFile->fileName->toPrimitive());
-            //$model->setAttribute('storage_info', $mediaFile->storageInfo->toArray());
+            // $model->setAttribute('original_filename', $mediaFile->originalFileName->toPrimitive());
+            // $model->setAttribute('filename', $mediaFile->fileName->toPrimitive());
+            // $model->setAttribute('storage_info', $mediaFile->storageInfo->toArray());
             $model->setAttribute('sizes', $mediaFile->sizes());
-            //$model->setAttribute('extension', $mediaFile->extension->toPrimitive());
-            //$model->setAttribute('mimetype', $mediaFile->mimetype->toPrimitive());
+            // $model->setAttribute('extension', $mediaFile->extension->toPrimitive());
+            // $model->setAttribute('mimetype', $mediaFile->mimetype->toPrimitive());
             $model->setAttribute('info', $mediaFile->info());
-            //$model->setAttribute('mediable_type', $mediaFile->mediableType->name);
-            //$model->setAttribute('mediable_id', $mediaFile->mediableId->toString());
+            // $model->setAttribute('mediable_type', $mediaFile->mediableType->name);
+            // $model->setAttribute('mediable_id', $mediaFile->mediableId->toString());
             $model->setAttribute('updated_at', Carbon::now());
 
             $model->save();
@@ -87,7 +87,7 @@ final class MediaFileRepository implements MediaFileRepositoryContract
             ->where('id', $id->toString())
             ->first();
 
-        if (!$model) {
+        if (! $model) {
             throw new MediaFileNotFoundException();
         }
 
@@ -100,7 +100,7 @@ final class MediaFileRepository implements MediaFileRepositoryContract
             ->where('mediable_id', $mediableId->toString())
             ->first();
 
-        if (!$model) {
+        if (! $model) {
             throw new MediaFileNotFoundException();
         }
 

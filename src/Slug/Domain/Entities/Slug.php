@@ -4,13 +4,13 @@ namespace Source\Slug\Domain\Entities;
 
 use Carbon\CarbonImmutable;
 use Ramsey\Uuid\UuidInterface;
+use Source\Shared\Entities\Contracts\AggregateWithEvents;
 use Source\Shared\Entities\Contracts\Entity;
+use Source\Shared\Entities\Traits\UseAggregateEvents;
 use Source\Slug\Domain\Enums\SluggableTypeEnum;
 use Source\Slug\Domain\ValueObjects\SlugString;
-use Source\Shared\Entities\Contracts\AggregateWithEvents;
-use Source\Shared\Entities\Traits\UseAggregateEvents;
 
-final class Slug implements Entity, AggregateWithEvents
+final class Slug implements AggregateWithEvents, Entity
 {
     use UseAggregateEvents;
 
@@ -48,7 +48,7 @@ final class Slug implements Entity, AggregateWithEvents
         SluggableTypeEnum $sluggableType,
         UuidInterface $sluggableId,
         ?CarbonImmutable $createdAt = null,
-       ?CarbonImmutable $updatedAt = null,
+        ?CarbonImmutable $updatedAt = null,
     ): Slug {
         return self::make(
             id: $id,

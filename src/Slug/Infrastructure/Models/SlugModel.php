@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Source\Shared\Models\BaseModel;
-use Source\Slug\Domain\Enums\SluggableTypeEnum;
 
 final class SlugModel extends BaseModel
 {

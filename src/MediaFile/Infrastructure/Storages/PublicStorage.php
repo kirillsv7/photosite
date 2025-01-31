@@ -33,12 +33,12 @@ final class PublicStorage implements Storage
             ->put(
                 implode(DIRECTORY_SEPARATOR, [
                     $fileRoute->toPrimitive(),
-                    $fileName->toPrimitive()
+                    $fileName->toPrimitive(),
                 ]),
                 $file->getContent()
             );
 
-        if (!$result) {
+        if (! $result) {
             throw new RuntimeException('File not saved');
         }
 

@@ -22,7 +22,7 @@ final readonly class ImageExifReader
     public function process(MediaFile $mediaFile): void
     {
         $mediaFileImage = Storage::disk($mediaFile->storageInfo->disk->toPrimitive())
-            ->get($mediaFile->storageInfo->route->toPrimitive() . DIRECTORY_SEPARATOR . $mediaFile->fileName->toPrimitive());
+            ->get($mediaFile->storageInfo->route->toPrimitive().DIRECTORY_SEPARATOR.$mediaFile->fileName->toPrimitive());
 
         $image = $this->imageManager->read($mediaFileImage);
 

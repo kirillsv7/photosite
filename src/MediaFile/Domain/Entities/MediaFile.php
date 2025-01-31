@@ -12,25 +12,14 @@ use Source\Shared\Entities\Contracts\Entity;
 use Source\Shared\Entities\Traits\UseAggregateEvents;
 use Source\Shared\ValueObjects\StringValueObject;
 
-final class MediaFile implements Entity, AggregateWithEvents
+final class MediaFile implements AggregateWithEvents, Entity
 {
     use UseAggregateEvents;
 
     protected Storage $storage;
 
     /**
-     * @param  UuidInterface  $id
-     * @param  StringValueObject  $originalFileName
-     * @param  StringValueObject  $fileName
-     * @param  StorageInfo  $storageInfo
      * @param  array<int, string>  $sizes
-     * @param  StringValueObject  $extension
-     * @param  StringValueObject  $mimetype
-     * @param  array|null  $info
-     * @param  MediableTypeEnum  $mediableType
-     * @param  UuidInterface  $mediableId
-     * @param  CarbonImmutable|null  $createdAt
-     * @param  CarbonImmutable|null  $updatedAt
      */
     protected function __construct(
         public readonly UuidInterface $id,

@@ -9,10 +9,6 @@ use Source\Shared\Handlers\Handler;
 
 final readonly class PhotoCreateHandler extends Handler
 {
-    public function __construct()
-    {
-    }
-
     public function handle(PhotoCreateCommand $command): Photo
     {
         return Photo::create(

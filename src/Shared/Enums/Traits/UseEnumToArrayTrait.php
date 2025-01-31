@@ -13,7 +13,7 @@ trait UseEnumToArrayTrait
     {
         $values = array_column(self::cases(), 'value');
 
-        if (!count($values)) {
+        if (! count($values)) {
             $values = array_column(self::cases(), 'name');
         }
 
@@ -24,7 +24,7 @@ trait UseEnumToArrayTrait
     {
         $values = array_column(self::cases(), 'value');
 
-        if (!count($values)) {
+        if (! count($values)) {
             return self::names();
         }
 

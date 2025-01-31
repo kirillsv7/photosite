@@ -8,7 +8,7 @@ use Source\MediaFile\Infrastructure\Services\ImageExifReader;
 use Source\Shared\ValueObjects\StringValueObject;
 use Throwable;
 
-final readonly class ImageStoreExif //implements ShouldQueue
+final readonly class ImageStoreExif // implements ShouldQueue
 {
     public function __construct(
         protected ImageExifReader $imageExifReader
@@ -21,7 +21,7 @@ final readonly class ImageStoreExif //implements ShouldQueue
     public function handle(
         MediaFileCreated $mediaFileCreated
     ): void {
-        if (!$mediaFileCreated
+        if (! $mediaFileCreated
             ->mediaFile
             ->mimetype
             ->equals(StringValueObject::fromString('image/jpeg'))

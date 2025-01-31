@@ -31,7 +31,7 @@ final readonly class PhotoRepository implements PhotoRepositoryContract
             ->where('id', $id->toString())
             ->first();
 
-        if (!$photoModel) {
+        if (! $photoModel) {
             throw new PhotoNotFoundException();
         }
 
