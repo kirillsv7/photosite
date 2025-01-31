@@ -4,5 +4,5 @@ namespace Source\Shared\Requests\Contracts;
 
 interface RequestWithDTO
 {
-    public function getDTO();
+    public function getDTO(): mixed;
 }

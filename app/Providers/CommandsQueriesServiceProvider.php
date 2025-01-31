@@ -24,6 +24,9 @@ use Source\Slug\Application\Handlers\SlugCreateHandler;
 
 class CommandsQueriesServiceProvider extends ServiceProvider
 {
+    /**
+     * @var array<array-key, string>
+     */
     public $singletons = [
         CommandBus::class => LaravelCommandBus::class,
         QueryBus::class => LaravelQueryBus::class,

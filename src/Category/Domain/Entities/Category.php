@@ -4,7 +4,7 @@ namespace Source\Category\Domain\Entities;
 
 use Carbon\CarbonImmutable;
 use Ramsey\Uuid\UuidInterface;
-use Source\Category\Domain\Events\CategoryCreated;
+use Source\Category\Domain\Events\CategoryCreatedEvent;
 use Source\MediaFile\Domain\Contracts\Mediable;
 use Source\MediaFile\Domain\Entities\MediaFile;
 use Source\Shared\Entities\Contracts\Entity;
@@ -67,11 +67,14 @@ final class Category implements Entity, Mediable, Sluggable
             updatedAt: $updatedAt,
         );
 
-        $category->addEvent(new CategoryCreated($category));
+        $category->addEvent(new CategoryCreatedEvent($category));
 
         return $category;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [

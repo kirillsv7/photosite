@@ -22,7 +22,7 @@ final readonly class MediaFileCreateHandler extends Handler
     ) {
     }
 
-    public function handle(MediaFileCreateCommand $command)
+    public function handle(MediaFileCreateCommand $command): MediaFile
     {
         $file = $command->file;
 

@@ -7,14 +7,19 @@ use Source\Shared\ValueObjects\StringValueObject;
 
 final readonly class SlugString extends StringValueObject
 {
+    /**
+     * @param  string[]  $fragments
+     */
     public static function fromFragments(array $fragments): self
     {
-        return new self(implode(
-            DIRECTORY_SEPARATOR,
-            array_map(
-                fn (string $fragment) => Str::slug($fragment),
-                $fragments
+        return new self(
+            implode(
+                DIRECTORY_SEPARATOR,
+                array_map(
+                    fn(string $fragment) => Str::slug($fragment),
+                    $fragments
+                )
             )
-        ));
+        );
     }
 }

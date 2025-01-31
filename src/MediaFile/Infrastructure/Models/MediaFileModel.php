@@ -5,12 +5,14 @@ namespace Source\MediaFile\Infrastructure\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Source\MediaFile\Infrastructure\Factories\MediaFileFactory;
 use Source\Shared\Models\BaseModel;
 
 final class MediaFileModel extends BaseModel
 {
+    /** @use HasFactory<MediaFileFactory> */
     use HasFactory;
     use HasUuids;
 
@@ -48,6 +50,9 @@ final class MediaFileModel extends BaseModel
         return MediaFileFactory::new();
     }
 
+    /**
+     * @return MorphTo<Model, $this>
+     */
     public function mediable(): MorphTo
     {
         return $this->morphTo();

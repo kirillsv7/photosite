@@ -22,6 +22,9 @@ final readonly class StorageInfo
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function toArray(): array
     {
         return [

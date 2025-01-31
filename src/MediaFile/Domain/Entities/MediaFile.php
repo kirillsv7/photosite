@@ -6,7 +6,7 @@ use Carbon\CarbonImmutable;
 use Ramsey\Uuid\UuidInterface;
 use Source\MediaFile\Domain\Contracts\Storage;
 use Source\MediaFile\Domain\Enums\MediableTypeEnum;
-use Source\MediaFile\Domain\Events\MediaFileCreated;
+use Source\MediaFile\Domain\Events\MediaFileCreatedEvent;
 use Source\Shared\Entities\Contracts\AggregateWithEvents;
 use Source\Shared\Entities\Contracts\Entity;
 use Source\Shared\Entities\Traits\UseAggregateEvents;
@@ -20,6 +20,7 @@ final class MediaFile implements AggregateWithEvents, Entity
 
     /**
      * @param  array<int, string>  $sizes
+     * @param  array<string, mixed>|null  $info
      */
     protected function __construct(
         public readonly UuidInterface $id,
@@ -38,6 +39,10 @@ final class MediaFile implements AggregateWithEvents, Entity
         $this->storage = app(Storage::class);
     }
 
+    /**
+     * @param  array<int, string>  $sizes
+     * @param  array<string, mixed>|null  $info
+     */
     public static function make(
         UuidInterface $id,
         StringValueObject $originalFileName,
@@ -68,6 +73,10 @@ final class MediaFile implements AggregateWithEvents, Entity
         );
     }
 
+    /**
+     * @param  array<int, string>  $sizes
+     * @param  array<string, mixed>|null  $info
+     */
     public static function create(
         UuidInterface $id,
         StringValueObject $originalFileName,
@@ -97,26 +106,38 @@ final class MediaFile implements AggregateWithEvents, Entity
             updatedAt: $updatedAt,
         );
 
-        $mediaFile->addEvent(new MediaFileCreated($mediaFile));
+        $mediaFile->addEvent(new MediaFileCreatedEvent($mediaFile));
 
         return $mediaFile;
     }
 
-    public function info(): array
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function info(): ?array
     {
         return $this->info;
     }
 
-    public function setInfo(array $info): void
+    /**
+     * @param  array<string, mixed>|null  $info
+     */
+    public function setInfo(?array $info): void
     {
         $this->info = $info;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function sizes(): array
     {
         return $this->sizes;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function links(): array
     {
         $links = [];

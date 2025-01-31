@@ -23,7 +23,10 @@ use Source\Slug\Infrastructure\Repositories\SlugRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public $singletons = [
+    /**
+     * @var array<array-key, string>
+     */
+    public array $singletons = [
         CategoryRepositoryContract::class => CategoryRepository::class,
         PhotoRepositoryContract::class => PhotoRepository::class,
         MediaFileRepositoryContract::class => MediaFileRepository::class,

@@ -58,10 +58,12 @@ final class Slug implements AggregateWithEvents, Entity
             createdAt: $createdAt,
             updatedAt: $updatedAt,
         );
-
         // TODO Add events
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [

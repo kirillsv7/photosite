@@ -6,7 +6,7 @@ use Carbon\CarbonImmutable;
 use Ramsey\Uuid\UuidInterface;
 use Source\MediaFile\Domain\Contracts\Mediable;
 use Source\MediaFile\Domain\Entities\MediaFile;
-use Source\Photo\Domain\Events\PhotoCreated;
+use Source\Photo\Domain\Events\PhotoCreatedEvent;
 use Source\Shared\Entities\Contracts\Entity;
 use Source\Shared\Entities\Traits\UseAggregateEvents;
 use Source\Shared\ValueObjects\StringValueObject;
@@ -62,7 +62,7 @@ final class Photo implements Entity, Mediable, Sluggable
             updatedAt: $updatedAt,
         );
 
-        $photo->addEvent(new PhotoCreated($photo));
+        $photo->addEvent(new PhotoCreatedEvent($photo));
 
         return $photo;
     }

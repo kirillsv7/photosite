@@ -4,17 +4,20 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Source\Category\Domain\Events\CategoryCreated;
-use Source\MediaFile\Domain\Events\MediaFileCreated;
+use Source\Category\Domain\Events\CategoryCreatedEvent;
+use Source\MediaFile\Domain\Events\MediaFileCreatedEvent;
 use Source\MediaFile\Infrastructure\EventListeners\ImageStoreExif;
 use Source\MediaFile\Infrastructure\EventListeners\MediaFileGenerateThumbs;
-use Source\Photo\Domain\Events\PhotoCreated;
+use Source\Photo\Domain\Events\PhotoCreatedEvent;
 use Source\Photo\Infrastructure\EventListeners\PhotoCreatedEventListener;
 use Source\Shared\Events\EventDispatcher;
 use Source\Shared\Events\LaravelEventDispatcher;
 
 class EventServiceProvider extends ServiceProvider
 {
+    /**
+     * @var array<array-key, string>
+     */
     public $singletons = [
         EventDispatcher::class => LaravelEventDispatcher::class,
     ];
@@ -34,8 +37,8 @@ class EventServiceProvider extends ServiceProvider
     {
         $eventWithListeners = [
             // CategoryCreated::class => CategoryCreatedEventListener::class,
-            PhotoCreated::class => PhotoCreatedEventListener::class,
-            MediaFileCreated::class => [
+            PhotoCreatedEvent::class => PhotoCreatedEventListener::class,
+            MediaFileCreatedEvent::class => [
                 MediaFileGenerateThumbs::class,
                 ImageStoreExif::class,
             ],

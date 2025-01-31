@@ -3,7 +3,7 @@
 namespace Source\MediaFile\Infrastructure\EventListeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Source\MediaFile\Domain\Events\MediaFileCreated;
+use Source\MediaFile\Domain\Events\MediaFileCreatedEvent;
 use Source\MediaFile\Infrastructure\Services\ImageThumbsGenerator;
 use Source\Shared\ValueObjects\StringValueObject;
 use Throwable;
@@ -19,9 +19,9 @@ final readonly class MediaFileGenerateThumbs // implements ShouldQueue
      * @throws Throwable
      */
     public function handle(
-        MediaFileCreated $mediaFileCreated
+        MediaFileCreatedEvent $mediaFileCreated
     ): void {
-        if (! $mediaFileCreated
+        if (!$mediaFileCreated
             ->mediaFile
             ->mimetype
             ->equals(StringValueObject::fromString('image/jpeg'))

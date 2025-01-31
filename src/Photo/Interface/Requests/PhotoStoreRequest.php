@@ -9,6 +9,9 @@ use Source\Shared\ValueObjects\StringValueObject;
 
 final class PhotoStoreRequest extends FormRequest implements RequestWithDTO
 {
+    /**
+     * @return array<string, array<int, string>>
+     */
     public function rules(): array
     {
         return [
