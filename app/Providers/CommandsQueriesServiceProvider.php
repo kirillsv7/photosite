@@ -12,7 +12,9 @@ use Source\MediaFile\Application\Handlers\MediaFileCreateHandler;
 use Source\Photo\Application\Commands\PhotoCreateCommand;
 use Source\Photo\Application\Commands\PhotoStoreCommand;
 use Source\Photo\Application\Handlers\PhotoCreateHandler;
+use Source\Photo\Application\Handlers\PhotoGetHandler;
 use Source\Photo\Application\Handlers\PhotoStoreHandler;
+use Source\Photo\Application\Queries\PhotoGetQuery;
 use Source\Shared\Commands\Contracts\CommandBus;
 use Source\Shared\Commands\LaravelCommandBus;
 use Source\Shared\Queries\Contracts\QueryBus;
@@ -56,6 +58,8 @@ class CommandsQueriesServiceProvider extends ServiceProvider
             PhotoStoreCommand::class => PhotoStoreHandler::class,
         ]);
 
-        $queryBus->map([]);
+        $queryBus->map([
+            PhotoGetQuery::class => PhotoGetHandler::class,
+        ]);
     }
 }

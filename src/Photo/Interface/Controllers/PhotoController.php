@@ -9,9 +9,11 @@ use Source\MediaFile\Application\Commands\MediaFileCreateCommand;
 use Source\MediaFile\Domain\Enums\MediableTypeEnum;
 use Source\Photo\Application\Commands\PhotoCreateCommand;
 use Source\Photo\Application\Commands\PhotoStoreCommand;
+use Source\Photo\Application\Queries\PhotoGetQuery;
 use Source\Photo\Domain\Entities\Photo;
 use Source\Photo\Interface\Requests\PhotoStoreRequest;
 use Source\Shared\Commands\Contracts\CommandBus;
+use Source\Shared\Queries\Contracts\QueryBus;
 use Source\Shared\ValueObjects\StringValueObject;
 use Source\Slug\Application\Commands\SlugCreateCommand;
 use Source\Slug\Domain\Enums\SluggableTypeEnum;
@@ -20,12 +22,20 @@ final readonly class PhotoController
 {
     public function __construct(
         protected CommandBus $commandBus,
+        protected QueryBus $queryBus,
     ) {
     }
 
-    public function get(string $id): string
+    public function get(string $id): JsonResponse
     {
-        return $id;
+        $photoGetQuery = new PhotoGetQuery(Uuid::fromString($id));
+
+        $photo = $this->queryBus->query($photoGetQuery);
+
+        return Response::json(
+            $photo->toArray(),
+            JsonResponse::HTTP_OK
+        );
     }
 
     public function store(PhotoStoreRequest $request): JsonResponse
