@@ -25,5 +25,5 @@ Route::post('category', [CategoryController::class, 'store']);
 
 Route::get("{slug}", [ResourceController::class, 'getBySlug'])
     ->where([
-        'slug' => '[a-z0-9\-\/]+'
+        'slug' => '[a-z0-9\-\_\/]+'
     ]);
