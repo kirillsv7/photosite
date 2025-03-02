@@ -6,7 +6,9 @@ use Illuminate\Support\ServiceProvider;
 use Source\Category\Application\Commands\CategoryCreateCommand;
 use Source\Category\Application\Commands\CategoryStoreCommand;
 use Source\Category\Application\Handlers\CategoryCreateHandler;
+use Source\Category\Application\Handlers\CategoryGetHandler;
 use Source\Category\Application\Handlers\CategoryStoreHandler;
+use Source\Category\Application\Queries\CategoryGetQuery;
 use Source\MediaFile\Application\Commands\MediaFileCreateCommand;
 use Source\MediaFile\Application\Handlers\MediaFileCreateHandler;
 use Source\Photo\Application\Commands\PhotoCreateCommand;
@@ -29,7 +31,7 @@ class CommandsQueriesServiceProvider extends ServiceProvider
      */
     public $singletons = [
         CommandBus::class => LaravelCommandBus::class,
-        QueryBus::class => LaravelQueryBus::class,
+        QueryBus::class   => LaravelQueryBus::class,
     ];
 
     /**
@@ -51,17 +53,19 @@ class CommandsQueriesServiceProvider extends ServiceProvider
 
         $commandBus->map([
             CategoryCreateCommand::class => CategoryCreateHandler::class,
-            CategoryStoreCommand::class => CategoryStoreHandler::class,
+            CategoryStoreCommand::class  => CategoryStoreHandler::class,
 
             MediaFileCreateCommand::class => MediaFileCreateHandler::class,
 
             SlugCreateCommand::class => SlugCreateHandler::class,
 
             PhotoCreateCommand::class => PhotoCreateHandler::class,
-            PhotoStoreCommand::class => PhotoStoreHandler::class,
+            PhotoStoreCommand::class  => PhotoStoreHandler::class,
         ]);
 
         $queryBus->map([
+            CategoryGetQuery::class => CategoryGetHandler::class,
+
             PhotoGetQuery::class => PhotoGetHandler::class,
         ]);
     }
