@@ -37,7 +37,6 @@ final readonly class PhotoController
 
         return Response::json(
             $photo->toArray(),
-            JsonResponse::HTTP_OK
         );
     }
 
